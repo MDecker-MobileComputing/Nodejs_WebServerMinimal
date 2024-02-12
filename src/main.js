@@ -13,7 +13,7 @@ function fehlerBehandeln(fehlerObjekt) {
 
     } else {
 
-        console.error("Fehler: " + fehlerObjekt + "\n");
+        console.error( `Fehler: ${fehlerObjekt.message}\n` );
     }
 }
 
@@ -31,9 +31,11 @@ let server = net.createServer(socket => {
 
         console.log("HTTP-Request empfangen: ", data);
 
-        socket.write("HTTP/1.1 200 OK" + HTTP_ZEILENENDE);
+        socket.write("HTTP/1.1 200 OK"         + HTTP_ZEILENENDE);
         socket.write("Content-Type: text/html" + HTTP_ZEILENENDE);
+
         socket.write(HTTP_ZEILENENDE); // Leerzeile zwischen Header und Body
+
         socket.write("<html><body><h1>Hallo Browser!</h1></body></html>");
 
         socket.end();
