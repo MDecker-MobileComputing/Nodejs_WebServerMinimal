@@ -33,6 +33,52 @@ function holeDatei(angeforderteRessource) {
 
 
 /**
+ * Funktion liefert den Wert für das Header-Feld `Content-Type` basierend auf der Dateiendung
+ * der angeforderten Ressource.
+ *
+ * Browser können nur Dateien verarbeiten, wenn sie den korrekten Content-Type haben.
+ * Beispielsweise werden CSS-Dateien nicht ausgewertet, wenn sie nicht mit dem MIME-Typ `text/css`
+ * ausgeliefert werden.
+ *
+ * @param {*} angeforderteRessource - Pfad zur angeforderten Ressource, für die der CSS-Content-Type
+ *                                    ermittelt werden soll.
+ *
+ * @returns Wert für Header-Felder `Content-Type`, basierend auf der Datei-Endung der angeforderten
+ *          Ressource, z.B. `text/html` für `.html`-Dateien oder `text/css` für `.css`-Dateien.
+ */
+function getMediaTypeFuerDatei(angeforderteRessource) {
+
+    if (angeforderteRessource.endsWith("/")) {
+
+        return "text/html";
+    }
+
+    const dateiendung = angeforderteRessource.split('.').pop().toLowerCase();
+    switch (dateiendung) {
+
+        case "html":
+        case "htm":
+            return "text/html";
+        case "css":
+            return "text/css";
+        case "js":
+            return "application/javascript";
+        case "png":
+            return "image/png";
+        case "jpg":
+        case "jpeg":
+            return "image/jpeg";
+        case "gif":
+            return "image/gif";
+        case "svg":
+            return "image/svg+xml";
+        default:
+            return "text/plain";
+    }
+}
+
+
+/**
  * Callback-Methode für Fehler bei der Kommunikation mit dem Client.
  */
 function fehlerBehandeln(fehlerObjekt) {
@@ -73,12 +119,10 @@ function extrahiereRequestZeile(daten) {
 }
 
 
+const PORT_NUMMER     = 8080;
+const HTTP_ZEILENENDE = "\r\n";
 
-
-const PORT_NUMMER=8080;
-const HTTP_ZEILENENDE= "\r\n";
-
-
+// Server mit Callback-Funktion für eingehende Verbindungen
 let server = net.createServer(socket => {
 
     socket.setEncoding("utf-8");
@@ -103,8 +147,10 @@ let server = net.createServer(socket => {
             const datei = holeDatei(pfadZuRessource);
             if (datei) {
 
-                socket.write("HTTP/1.1 200 OK"         + HTTP_ZEILENENDE);
-                socket.write("Content-Type: text/html" + HTTP_ZEILENENDE);
+                socket.write("HTTP/1.1 200 OK" + HTTP_ZEILENENDE);
+
+                const contentType = getMediaTypeFuerDatei(pfadZuRessource);
+                socket.write(`Content-Type: ${contentType}${HTTP_ZEILENENDE}`);
 
                 socket.write(HTTP_ZEILENENDE); // Leerzeile zwischen Header und Body
 
