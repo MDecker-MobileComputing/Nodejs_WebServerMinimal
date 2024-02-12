@@ -19,6 +19,8 @@ function fehlerBehandeln(fehlerObjekt) {
 
 
 const PORT_NUMMER=8080;
+const HTTP_ZEILENENDE= "\r\n";
+
 
 let server = net.createServer(socket => {
 
@@ -29,12 +31,13 @@ let server = net.createServer(socket => {
 
         console.log("HTTP-Request empfangen: ", data);
 
-        socket.write('HTTP/1.1 200 OK\r\n');
-        socket.write('Content-Type: text/html\r\n');
-        socket.write('\r\n');
-        socket.write('<html><body><h1>Hello, World!</h1></body></html>');
-        console.log(`HTTP-Request von ${socket.remoteAddress} beantwortet.`);
+        socket.write("HTTP/1.1 200 OK" + HTTP_ZEILENENDE);
+        socket.write("Content-Type: text/html" + HTTP_ZEILENENDE);
+        socket.write(HTTP_ZEILENENDE); // Leerzeile zwischen Header und Body
+        socket.write("<html><body><h1>Hallo Browser!</h1></body></html>");
+
         socket.end();
+        console.log(`HTTP-Request von ${socket.remoteAddress} beantwortet.`);
     });
 
     // Callback-Funktion für Fehler definieren
