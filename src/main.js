@@ -27,9 +27,9 @@ let server = net.createServer(socket => {
     socket.setEncoding("utf-8");
     socket.setNoDelay();
 
-    socket.on("data", data => {
+    socket.on("data", daten => {
 
-        console.log("HTTP-Request empfangen: ", data);
+        console.log("HTTP-Request empfangen: ", daten);
 
         socket.write("HTTP/1.1 200 OK"         + HTTP_ZEILENENDE);
         socket.write("Content-Type: text/html" + HTTP_ZEILENENDE);
