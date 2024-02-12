@@ -13,8 +13,15 @@ npm start
 
 <br>
 
-Danach sollte die Homepage des enthaltenen Website im Browser unter der URL http://localhost:8080
+Danach sollte die Einstiegs-Seite der enthaltenen Website im Browser unter der URL http://localhost:8080
 erreichbar sein.
+
+<br>
+
+Die im Repo enthaltene Website kann unter der folgenden URL auch über [GitHub Pages](https://pages.github.com/)
+getestet werden:
+
+https://mdecker-mobilecomputing.github.io/Nodejs_WebServerMinimal/
 
 <br>
 
