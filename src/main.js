@@ -61,17 +61,21 @@ let server = net.createServer(socket => {
         if (httpVerb !== "GET") {
 
             console.log(`FEHLER: HTTP-Verb \"${httpVerb}\" wird nicht unterstützt.`);
+            socket.write("HTTP/1.1 405 Method Not Allowed");
+
+        } else {
+
+            const pfadZuRessource = requestTokenArray[1];
+
+            socket.write("HTTP/1.1 200 OK"         + HTTP_ZEILENENDE);
+            socket.write("Content-Type: text/html" + HTTP_ZEILENENDE);
+
+            socket.write(HTTP_ZEILENENDE); // Leerzeile zwischen Header und Body
+
+            socket.write("<html><body>"                                             + HTTP_ZEILENENDE);
+            socket.write(`<h1>Datei/Ressource angefordert: ${pfadZuRessource}</h1>` + HTTP_ZEILENENDE);
+            socket.write("</body></html>"                                           + HTTP_ZEILENENDE);
         }
-        const pfadZuRessource = requestTokenArray[1];
-
-        socket.write("HTTP/1.1 200 OK"         + HTTP_ZEILENENDE);
-        socket.write("Content-Type: text/html" + HTTP_ZEILENENDE);
-
-        socket.write(HTTP_ZEILENENDE); // Leerzeile zwischen Header und Body
-
-        socket.write("<html><body>"                                             + HTTP_ZEILENENDE);
-        socket.write(`<h1>Datei/Ressource angefordert: ${pfadZuRessource}</h1>` + HTTP_ZEILENENDE);
-        socket.write("</body></html>"                                           + HTTP_ZEILENENDE);
 
         socket.end();
         console.log(`HTTP-Request von ${socket.remoteAddress} beantwortet.`);
