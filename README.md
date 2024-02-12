@@ -2,7 +2,7 @@
 
 <br>
 
-**Verwenden Sie den in diesem Repository enthaltenen Web-Serber auf keinen Fall produktiv!**
+**Verwenden Sie den in diesem Repository enthaltenen Web-Server auf keinen Fall produktiv!**
 
 <br>
 
@@ -10,6 +10,11 @@ Programm starten:
 ```
 npm start
 ```
+
+<br>
+
+Danach sollte die Homepage des enthaltenen Website im Browser unter der URL http://localhost:8080
+erreichbar sein.
 
 <br>
 

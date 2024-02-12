@@ -7,13 +7,17 @@ import fs   from 'fs';
  * Diese Funktion liest eine Datei basierend auf der angeforderten Ressource.
  *
  * @param {string} angeforderteRessource - Der Pfad zur angeforderten Ressource,
- *                                         relativ zum Verzeichnis `public_html` Verzeichnis.
+ *                                         relativ zum Verzeichnis `docs` Verzeichnis.
+ *                                         Es wurde `docs` als Root-Verzeichnis für den
+ *                                         Web-Content definiert, damit er zum Vergleich
+ *                                         auch mit *GitHub Pages* aufgerufen werden kann.
+ *
  * @returns {Buffer|null} Die Datei-Inhalte als Buffer, oder `null`, wenn die Datei nicht gelesen
  *                        werden konnte.
  */
 function holeDatei(angeforderteRessource) {
 
-    let relativerPfad = "./public_html" + angeforderteRessource;
+    let relativerPfad = "./docs" + angeforderteRessource;
     if (relativerPfad.endsWith("/")) {
 
             relativerPfad += "/index.html";
