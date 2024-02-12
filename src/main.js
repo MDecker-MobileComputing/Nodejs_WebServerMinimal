@@ -61,7 +61,8 @@ let server = net.createServer(socket => {
         if (httpVerb !== "GET") {
 
             console.log(`FEHLER: HTTP-Verb \"${httpVerb}\" wird nicht unterstützt.`);
-            socket.write("HTTP/1.1 405 Method Not Allowed");
+            socket.write("HTTP/1.1 405 Method Not Allowed" + HTTP_ZEILENENDE); // https://http.cat/status/405
+            socket.write("Allow: GET")
 
         } else {
 
