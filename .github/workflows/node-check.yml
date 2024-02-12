@@ -1,0 +1,19 @@
+name: Node.js Code Check
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Node.js einrichten
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+    - name: Alle JavaScript-Dateien mit >node --check< prüfen
+      run: |
+        for file in $(find . -name "*.js")
+        do
+          node --check $file
+        done
