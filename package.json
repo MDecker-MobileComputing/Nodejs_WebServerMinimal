@@ -1,0 +1,12 @@
+{
+  "name": "http-server-minimal",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Minimaler HTTP-Server mit Nodejs",
+  "author": "MDecker-MobileComputing",
+  "license": "BSD-3-Clause",
+  "dependencies": {},
+  "scripts": {
+    "start": "node src/main.js"
+  }
+}
