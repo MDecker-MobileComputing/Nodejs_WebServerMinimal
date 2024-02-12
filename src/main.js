@@ -1,5 +1,35 @@
 // In package.json muss "type"="module" sein, damit die folgende Import-Anweisung funktioniert.
-import net from "net";
+import net  from "net";
+import fs   from 'fs';
+
+
+/**
+ * Diese Funktion liest eine Datei basierend auf der angeforderten Ressource.
+ *
+ * @param {string} angeforderteRessource - Der Pfad zur angeforderten Ressource,
+ *                                         relativ zum Verzeichnis `public_html` Verzeichnis.
+ * @returns {Buffer|null} Die Datei-Inhalte als Buffer, oder `null`, wenn die Datei nicht gelesen
+ *                        werden konnte.
+ */
+function holeDatei(angeforderteRessource) {
+
+    let relativerPfad = "./public_html" + angeforderteRessource;
+    if (relativerPfad.endsWith("/")) {
+
+            relativerPfad += "/index.html";
+    }
+    console.log(`Versucht Datei zu laden: ${relativerPfad}`);
+
+    try {
+
+        return fs.readFileSync(relativerPfad);
+
+    } catch (err) {
+
+        console.error(`Fehler beim Lesen der Datei "${relativerPfad}": ${err.message}`);
+        return null;
+    }
+}
 
 
 /**
@@ -43,6 +73,8 @@ function extrahiereRequestZeile(daten) {
 }
 
 
+
+
 const PORT_NUMMER=8080;
 const HTTP_ZEILENENDE= "\r\n";
 
@@ -68,14 +100,20 @@ let server = net.createServer(socket => {
 
             const pfadZuRessource = requestTokenArray[1];
 
-            socket.write("HTTP/1.1 200 OK"         + HTTP_ZEILENENDE);
-            socket.write("Content-Type: text/html" + HTTP_ZEILENENDE);
+            const datei = holeDatei(pfadZuRessource);
+            if (datei) {
 
-            socket.write(HTTP_ZEILENENDE); // Leerzeile zwischen Header und Body
+                socket.write("HTTP/1.1 200 OK"         + HTTP_ZEILENENDE);
+                socket.write("Content-Type: text/html" + HTTP_ZEILENENDE);
 
-            socket.write("<html><body>"                                             + HTTP_ZEILENENDE);
-            socket.write(`<h1>Datei/Ressource angefordert: ${pfadZuRessource}</h1>` + HTTP_ZEILENENDE);
-            socket.write("</body></html>"                                           + HTTP_ZEILENENDE);
+                socket.write(HTTP_ZEILENENDE); // Leerzeile zwischen Header und Body
+
+                socket.write(datei);
+
+            } else { // Datei nicht gefunden
+
+                    socket.write("HTTP/1.1 404 Not Found" + HTTP_ZEILENENDE); // https://http.cat/status/404
+            }
         }
 
         socket.end();
