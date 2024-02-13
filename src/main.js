@@ -15,6 +15,7 @@ import fs   from 'fs';
  * @returns {Buffer|null} Die Datei-Inhalte als Buffer, oder `null`, wenn die Datei nicht
  *                        gelesen werden konnte.
  */
+
 function holeDatei(angeforderteRessource) {
 
     let relativerPfad = "./docs" + angeforderteRessource;
@@ -22,7 +23,6 @@ function holeDatei(angeforderteRessource) {
 
         relativerPfad += "/index.html";
     }
-    console.log(`Versuche die folgende Datei zu lesen: ${relativerPfad}`);
 
     try {
 
@@ -51,34 +51,26 @@ function holeDatei(angeforderteRessource) {
  *          Ressource, z.B. `text/html` für `.html`-Dateien oder `text/css` für `.css`-Dateien.
  *          Wenn die Dateiendung nicht bekannt ist, wird `text/plain` zurückgegeben.
  */
+
 function getMediaTypeFuerDatei(angeforderteRessource) {
 
     if (angeforderteRessource.endsWith("/")) {
 
         return "text/html";
     }
-
     const dateiendung = angeforderteRessource.split('.').pop().toLowerCase();
     switch (dateiendung) {
 
         case "html":
-        case "htm":
-            return "text/html";
-        case "css":
-            return "text/css";
-        case "js":
-            return "application/javascript";
-        case "png":
-            return "image/png";
-        case "jpg":
-        case "jpeg":
-            return "image/jpeg";
-        case "gif":
-            return "image/gif";
-        case "svg":
-            return "image/svg+xml";
-        default:
-            return "text/plain";
+        case "htm" : return "text/html";
+        case "css" : return "text/css";
+        case "js"  : return "application/javascript";
+        case "png" : return "image/png";
+        case "jpg" :
+        case "jpeg": return "image/jpeg";
+        case "gif" : return "image/gif";
+        case "svg" : return "image/svg+xml";
+        default: return "text/plain";
     }
 }
 
@@ -145,7 +137,7 @@ let server = net.createServer(socket => {
             socket.write("HTTP/1.1 405 Method Not Allowed" + HTTP_ZEILENENDE); // https://http.cat/status/405
             socket.write("Allow: GET")
 
-        } else {
+        } else { // HTTP-GET
 
             const pfadZuRessource = requestTokenArray[1];
 
@@ -163,7 +155,7 @@ let server = net.createServer(socket => {
 
             } else { // Datei nicht gefunden
 
-                    socket.write("HTTP/1.1 404 Not Found" + HTTP_ZEILENENDE); // https://http.cat/status/404
+                    socket.write("HTTP/1.1 404 Not Found" + HTTP_ZEILENENDE);
             }
         }
 
