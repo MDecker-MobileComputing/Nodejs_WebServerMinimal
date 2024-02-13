@@ -12,8 +12,8 @@ import fs   from 'fs';
  *                                         Web-Content definiert, damit er zum Vergleich
  *                                         auch mit *GitHub Pages* aufgerufen werden kann.
  *
- * @returns {Buffer|null} Die Datei-Inhalte als Buffer, oder `null`, wenn die Datei nicht gelesen
- *                        werden konnte.
+ * @returns {Buffer|null} Die Datei-Inhalte als Buffer, oder `null`, wenn die Datei nicht
+ *                        gelesen werden konnte.
  */
 function holeDatei(angeforderteRessource) {
 
@@ -22,7 +22,7 @@ function holeDatei(angeforderteRessource) {
 
             relativerPfad += "/index.html";
     }
-    console.log(`Versucht Datei zu laden: ${relativerPfad}`);
+    console.log(`Versuche die folgende Datei zu lesen: ${relativerPfad}`);
 
     try {
 
