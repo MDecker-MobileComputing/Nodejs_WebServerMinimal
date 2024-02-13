@@ -1,4 +1,4 @@
-// In package.json muss "type"="module" sein, damit die folgende Import-Anweisung funktioniert.
+// In package.json muss "type"="module" sein, damit die folgende Import-Anweisungen funktionieren
 import net  from "net";
 import fs   from 'fs';
 
@@ -20,7 +20,7 @@ function holeDatei(angeforderteRessource) {
     let relativerPfad = "./docs" + angeforderteRessource;
     if (relativerPfad.endsWith("/")) {
 
-            relativerPfad += "/index.html";
+        relativerPfad += "/index.html";
     }
     console.log(`Versuche die folgende Datei zu lesen: ${relativerPfad}`);
 
