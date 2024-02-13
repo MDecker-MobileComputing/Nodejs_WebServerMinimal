@@ -49,6 +49,7 @@ function holeDatei(angeforderteRessource) {
  *
  * @returns Wert für Header-Felder `Content-Type`, basierend auf der Datei-Endung der angeforderten
  *          Ressource, z.B. `text/html` für `.html`-Dateien oder `text/css` für `.css`-Dateien.
+ *          Wenn die Dateiendung nicht bekannt ist, wird `text/plain` zurückgegeben.
  */
 function getMediaTypeFuerDatei(angeforderteRessource) {
 
