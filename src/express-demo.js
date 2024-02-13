@@ -1,6 +1,10 @@
 /*
  * Diese Datei zeigt, wie einfach sich mit express.js ein Web-Server für die
  * Auslieferung von statischem Web-Content erstellen lässt.
+ *
+ * siehe auch: https://expressjs.com/en/5x/api.html#express.static
+ *
+ * express.js einem Projekt hinzufügen: npm install express
  */
 
 import express from 'express';
