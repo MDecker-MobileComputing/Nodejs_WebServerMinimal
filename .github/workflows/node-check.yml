@@ -13,7 +13,7 @@ jobs:
         node-version: '20'
     - name: Alle JavaScript-Dateien mit >node --check< prüfen
       run: |
-        for file in $(find . -name "*.js")
+        while IFS= read -r file
         do
-          node --check $file
-        done
+          node --check "$file"
+        done < <(find . -name "*.js")
