@@ -1,6 +1,6 @@
 // In package.json muss "type"="module" sein, damit die folgende Import-Anweisungen funktionieren
-import net  from "net";
-import fs   from 'fs';
+import net from "net";
+import fs  from "fs";
 
 
 /**
@@ -15,7 +15,6 @@ import fs   from 'fs';
  * @returns {Buffer|null} Die Datei-Inhalte als Buffer, oder `null`, wenn die Datei nicht
  *                        gelesen werden konnte.
  */
-
 function holeDatei(angeforderteRessource) {
 
     let relativerPfad = "./docs" + angeforderteRessource;
