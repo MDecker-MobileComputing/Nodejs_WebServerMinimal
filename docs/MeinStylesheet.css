@@ -1,12 +1,11 @@
 
 body {
     font-family: sans-serif;
-    margin: 5em;
-    font-size: 150%;
+    margin     : 5em;
+    font-size  : 150%;
 }
 
 h1 {
-
     text-align: center;
 }
 
@@ -15,7 +14,7 @@ li {
 }
 
 .zentrieren {
-    display: block;
-    margin-left: auto;
+    display     : block;
+    margin-left : auto;
     margin-right: auto;
 }
