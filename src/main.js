@@ -15,21 +15,21 @@ import fs  from "fs";
  * @returns {Buffer|null} Die Datei-Inhalte als Buffer, oder `null`, wenn die Datei nicht
  *                        gelesen werden konnte.
  */
-function holeDatei(angeforderteRessource) {
+function holeDatei( angeforderteRessource ) {
 
     let relativerPfad = "./docs" + angeforderteRessource;
-    if (relativerPfad.endsWith("/")) {
+    if ( relativerPfad.endsWith( "/" ) ) {
 
         relativerPfad += "/index.html";
     }
 
     try {
 
-        return fs.readFileSync(relativerPfad);
+        return fs.readFileSync( relativerPfad );
 
     } catch (err) {
 
-        console.error(`Fehler beim Lesen der Datei "${relativerPfad}": ${err.message}`);
+        console.error( `Fehler beim Lesen der Datei "${relativerPfad}": ${err.message}` );
         return null;
     }
 }
@@ -51,14 +51,14 @@ function holeDatei(angeforderteRessource) {
  *          Wenn die Dateiendung nicht bekannt ist, wird `text/plain` zurückgegeben.
  */
 
-function getMediaTypeFuerDatei(angeforderteRessource) {
+function getMediaTypeFuerDatei( angeforderteRessource ) {
 
-    if (angeforderteRessource.endsWith("/")) {
+    if (angeforderteRessource.endsWith( "/" )) {
 
         return "text/html";
     }
-    const dateiendung = angeforderteRessource.split('.').pop().toLowerCase();
-    switch (dateiendung) {
+    const dateiendung = angeforderteRessource.split( "." ).pop().toLowerCase();
+    switch ( dateiendung ) {
 
         case "html":
         case "htm" : return "text/html";
@@ -77,9 +77,9 @@ function getMediaTypeFuerDatei(angeforderteRessource) {
 /**
  * Callback-Methode für Fehler bei der Kommunikation mit dem Client.
  */
-function fehlerBehandeln(fehlerObjekt) {
+function fehlerBehandeln( fehlerObjekt ) {
 
-    if (fehlerObjekt.code === "ECONNRESET") {
+    if ( fehlerObjekt.code === "ECONNRESET" ) {
 
         console.log( "Client hat Verbindung geschlossen.\n" );
 
@@ -101,17 +101,18 @@ function fehlerBehandeln(fehlerObjekt) {
  * ```
  *
  * @param {*} daten Von HTTP-Client über TCP/IP erhaltener Request
+ *
  * @returns Array mit Komponenten der ersten Zeile im HTTP-Request:
  *          HTTP-Verb (z.B. `GET`),
  *          Pfad (Request URI, z.B. `/pfad/seite.html`),
  *          Protokoll (z.B. `HTTP/1.1`)
  */
-function extrahiereRequestZeile(daten) {
+function extrahiereRequestZeile( daten ) {
 
-    const zeilenArray = daten.split("\n");
+    const zeilenArray = daten.split( "\n" );
     const ersteZeile  = zeilenArray[0];
 
-    return ersteZeile.split(" ");
+    return ersteZeile.split( " " );
 }
 
 
@@ -119,54 +120,54 @@ const PORT_NUMMER     = 8080;
 const HTTP_ZEILENENDE = "\r\n";
 
 // Server mit Callback-Funktion für eingehende Verbindungen
-let server = net.createServer(socket => {
+let server = net.createServer( socket => {
 
-    socket.setEncoding("utf-8");
+    socket.setEncoding( "utf-8" );
     socket.setNoDelay();
 
-    socket.on("data", daten => {
+    socket.on( "data" , daten => {
 
-        console.log("HTTP-Request empfangen: ", daten);
+        console.log( "HTTP-Request empfangen: ", daten) ;
 
-        const requestTokenArray = extrahiereRequestZeile(daten);
+        const requestTokenArray = extrahiereRequestZeile( daten );
         const httpVerb = requestTokenArray[0];
-        if (httpVerb !== "GET") {
+        if ( httpVerb !== "GET" ) {
 
-            console.log(`FEHLER: HTTP-Verb \"${httpVerb}\" wird nicht unterstützt.`);
-            socket.write("HTTP/1.1 405 Method Not Allowed" + HTTP_ZEILENENDE); // https://http.cat/status/405
-            socket.write("Allow: GET")
+            console.log( `FEHLER: HTTP-Verb \"${httpVerb}\" wird nicht unterstützt.` );
+            socket.write( "HTTP/1.1 405 Method Not Allowed" + HTTP_ZEILENENDE) ; // https://http.cat/status/405
+            socket.write( "Allow: GET" )
 
         } else { // HTTP-GET
 
             const pfadZuRessource = requestTokenArray[1];
 
-            const datei = holeDatei(pfadZuRessource);
-            if (datei) {
+            const datei = holeDatei( pfadZuRessource );
+            if ( datei ) {
 
-                socket.write("HTTP/1.1 200 OK" + HTTP_ZEILENENDE);
+                socket.write( "HTTP/1.1 200 OK" + HTTP_ZEILENENDE );
 
-                const contentType = getMediaTypeFuerDatei(pfadZuRessource);
-                socket.write(`Content-Type: ${contentType}${HTTP_ZEILENENDE}`);
+                const contentType = getMediaTypeFuerDatei( pfadZuRessource );
+                socket.write( `Content-Type: ${contentType}${HTTP_ZEILENENDE}` );
 
-                socket.write(HTTP_ZEILENENDE); // Leerzeile zwischen Header und Body
+                socket.write( HTTP_ZEILENENDE ); // Leerzeile zwischen Header und Body
 
-                socket.write(datei);
+                socket.write( datei );
 
             } else { // Datei nicht gefunden
 
-                    socket.write("HTTP/1.1 404 Not Found" + HTTP_ZEILENENDE);
+                socket.write( "HTTP/1.1 404 Not Found" + HTTP_ZEILENENDE );
             }
         }
 
         socket.end();
-        console.log(`HTTP-Request von ${socket.remoteAddress} beantwortet.`);
+        console.log( `HTTP-Request von ${socket.remoteAddress} beantwortet.` );
     });
 
     // Callback-Funktion für Fehler definieren
-    socket.on("error", fehlerBehandeln );
+    socket.on( "error", fehlerBehandeln );
 });
 
 
 // Server starten
-console.log(`Web-Server lauscht auf Port ${PORT_NUMMER} ...\n`);
-server.listen(PORT_NUMMER, "");
+console.log( `Web-Server lauscht auf Port ${PORT_NUMMER} ...\n` );
+server.listen( PORT_NUMMER, "" );
